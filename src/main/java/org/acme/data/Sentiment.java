@@ -54,4 +54,51 @@ mysql> describe sentiment;
     public Integer capacity;
     public String vibe;
 
+    public String getStop_name() {
+        return stop_name;
+    }
+
+    public void setStop_name(String stop_name) {
+        this.stop_name = stop_name;
+    }
+
+    public String getRoute_type() {
+        return route_type;
+    }
+
+    public void setRoute_type(String route_type) {
+        this.route_type = route_type;
+    }
+
+    public String getRoute_number() {
+        return route_number;
+    }
+
+    public void setRoute_number(String route_number) {
+        this.route_number = route_number;
+    }
+
+    public String getRoute_direction() {
+        return route_direction;
+    }
+
+    public void setRoute_direction(String route_direction) {
+        this.route_direction = route_direction;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getVibe() {
+        return vibe;
+    }
+
+    public void setVibe(String vibe) {
+        this.vibe = vibe;
+    }
 }

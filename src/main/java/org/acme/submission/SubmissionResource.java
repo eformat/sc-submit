@@ -2,6 +2,7 @@ package org.acme.submission;
 
 import io.quarkus.panache.common.Sort;
 import org.acme.data.Submission;
+import org.acme.data.Submitter;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -15,17 +16,19 @@ import javax.ws.rs.ext.Provider;
 import java.util.List;
 
 @ApplicationScoped
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
-@Path("/formsubmit")
+@Path("/submission")
 public class SubmissionResource {
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public List<Submission> get() {
         return Submission.listAll(Sort.by("id"));
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("{id}")
     public Submission getSingle(@PathParam Long id) {
         Submission entity = Submission.findById(id);
@@ -37,34 +40,26 @@ public class SubmissionResource {
 
     @POST
     @Transactional
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Submission submission) {
         if (submission.id != null) {
             throw new WebApplicationException("ID was invalidly set on request.", 422);
         }
-
+        Submitter submitter = submission.getSubmitter();
+        Submitter exists = Submitter.findByDeviceId(submitter.device_id);
+        if (null != exists) {
+            submission.submitter = exists;
+        }
         submission.persist();
         return Response.ok(submission).status(201).build();
-    }
-
-    @PUT
-    @Path("{id}")
-    @Transactional
-    public Submission update(@PathParam Long id, Submission submission) {
-//        if (fruit.name == null) {
-//            throw new WebApplicationException("Fruit Name was not set on request.", 422);
-//        }
-        Submission entity = Submission.findById(id);
-        if (entity == null) {
-            throw new WebApplicationException("Form with id of " + id + " does not exist.", 404);
-        }
-        entity = submission;
-
-        return entity;
     }
 
     @DELETE
     @Path("{id}")
     @Transactional
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam Long id) {
         Submission entity = Submission.findById(id);
         if (entity == null) {
@@ -75,6 +70,8 @@ public class SubmissionResource {
     }
 
     @Provider
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public static class ErrorMapper implements ExceptionMapper<Exception> {
         @Override
         public Response toResponse(Exception exception) {

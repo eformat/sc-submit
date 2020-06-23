@@ -6,6 +6,8 @@ import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity(name="submitter")
 public class Submitter extends PanacheEntityBase {
@@ -24,6 +26,10 @@ mysql> describe submitter;
 +--------------------+-------------+------+-----+-------------------+-----------------------------------------------+
    */
 
+//    @OneToMany(targetEntity = Submission.class, fetch = FetchType.LAZY)
+//    @Transient
+//    private Set<Submitter> parent;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
@@ -41,11 +47,39 @@ mysql> describe submitter;
     @Column(name = "timestamp_modified", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     public Date timestamp_modified;// = new java.sql.Date(new java.util.Date().getTime());
 
-    @Column(length = 20)
+    @Column(length = 20, unique = true)
     public String device_id;
     @Column(length = 6)
     public Integer birth_year;
     @Column(length = 1)
     public String gender;
+
+    public String getDevice_id() {
+        return device_id;
+    }
+
+    public void setDevice_id(String device_id) {
+        this.device_id = device_id;
+    }
+
+    public Integer getBirth_year() {
+        return birth_year;
+    }
+
+    public void setBirth_year(Integer birth_year) {
+        this.birth_year = birth_year;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public static Submitter findByDeviceId(String deviceId){
+        return find("device_id", deviceId).firstResult();
+    }
 
 }

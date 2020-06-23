@@ -72,14 +72,127 @@ mysql> describe submissions;
     public String symptom_muscle_pain;
     @Column(length = 1)
     public String diagnosed_covid19;
-    @Column(length = 20)
-    public Integer new_device_id;
+//    @Column(length = 20)
+//    public Integer new_device_id;
 
-    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "submitter_id")
-    Submitter submitter;
+    public Submitter submitter;
 
-    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "sentiment_id")
-    Sentiment sentiment;
+    public Sentiment sentiment;
+
+    public boolean isFever_status() {
+        return fever_status;
+    }
+
+    public void setFever_status(boolean fever_status) {
+        this.fever_status = fever_status;
+    }
+
+    public Float getFever_temp() {
+        return fever_temp;
+    }
+
+    public void setFever_temp(Float fever_temp) {
+        this.fever_temp = fever_temp;
+    }
+
+    public String getLocation_country_code() {
+        return location_country_code;
+    }
+
+    public void setLocation_country_code(String location_country_code) {
+        this.location_country_code = location_country_code;
+    }
+
+    public String getLocation_postal_code() {
+        return location_postal_code;
+    }
+
+    public void setLocation_postal_code(String location_postal_code) {
+        this.location_postal_code = location_postal_code;
+    }
+
+    public Float getLocation_lng() {
+        return location_lng;
+    }
+
+    public void setLocation_lng(Float location_lng) {
+        this.location_lng = location_lng;
+    }
+
+    public Float getLocation_lat() {
+        return location_lat;
+    }
+
+    public void setLocation_lat(Float location_lat) {
+        this.location_lat = location_lat;
+    }
+
+    public String getSymptom_difficult_to_breath() {
+        return symptom_difficult_to_breath;
+    }
+
+    public void setSymptom_difficult_to_breath(String symptom_difficult_to_breath) {
+        this.symptom_difficult_to_breath = symptom_difficult_to_breath;
+    }
+
+    public String getSymptom_cough() {
+        return symptom_cough;
+    }
+
+    public void setSymptom_cough(String symptom_cough) {
+        this.symptom_cough = symptom_cough;
+    }
+
+    public String getSymptom_sore_throat() {
+        return symptom_sore_throat;
+    }
+
+    public void setSymptom_sore_throat(String symptom_sore_throat) {
+        this.symptom_sore_throat = symptom_sore_throat;
+    }
+
+    public String getSymptom_muscle_pain() {
+        return symptom_muscle_pain;
+    }
+
+    public void setSymptom_muscle_pain(String symptom_muscle_pain) {
+        this.symptom_muscle_pain = symptom_muscle_pain;
+    }
+
+    public String getDiagnosed_covid19() {
+        return diagnosed_covid19;
+    }
+
+    public void setDiagnosed_covid19(String diagnosed_covid19) {
+        this.diagnosed_covid19 = diagnosed_covid19;
+    }
+
+//    public Integer getNew_device_id() {
+//        return new_device_id;
+//    }
+//
+//    public void setNew_device_id(Integer new_device_id) {
+//        this.new_device_id = new_device_id;
+//    }
+
+    public Submitter getSubmitter() {
+        return submitter;
+    }
+
+    public void setSubmitter(Submitter submitter) {
+        this.submitter = submitter;
+    }
+
+    public Sentiment getSentiment() {
+        return sentiment;
+    }
+
+    public void setSentiment(Sentiment sentiment) {
+        this.sentiment = sentiment;
+    }
+
 }
