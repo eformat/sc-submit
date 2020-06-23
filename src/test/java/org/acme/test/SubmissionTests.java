@@ -33,7 +33,6 @@ public class SubmissionTests {
         submission.location_lat = 144.00001f;
         submission.location_lat = -34.4554646f;
         submission.location_postal_code = "40987";
-        submission.new_device_id = null;
         submission.symptom_cough = "0";
         submission.symptom_difficult_to_breath = "0";
         submission.symptom_muscle_pain = "0";
