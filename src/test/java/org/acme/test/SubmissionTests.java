@@ -26,29 +26,18 @@ public class SubmissionTests {
         Assertions.assertEquals(23, Submission.count());
 
         Submission submission = new Submission();
-        submission.diagnosed_covid19 = "0";
-        submission.fever_status = false;
-        submission.fever_temp = 0f;
-        submission.location_country_code = "NZ";
         submission.location_lat = 144.00001f;
         submission.location_lat = -34.4554646f;
-        submission.location_postal_code = "40987";
-        submission.symptom_cough = "0";
-        submission.symptom_difficult_to_breath = "0";
-        submission.symptom_muscle_pain = "0";
-        submission.symptom_sore_throat = "0";
 
         Submitter submitter = new Submitter();
-        submitter.birth_year = 1990;
         submitter.device_id = "9987374734737743";
-        submitter.gender = "F";
 
         Sentiment sentiment = new Sentiment();
         sentiment.capacity = 95;
         sentiment.route_direction = "City";
         sentiment.route_number = "111";
         sentiment.stop_name = "The Hill";
-        sentiment.vibe = "angry";
+        sentiment.vibe = 40;
 
         submission.sentiment = sentiment;
         submission.submitter = submitter;

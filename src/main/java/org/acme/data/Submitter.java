@@ -18,17 +18,11 @@ mysql> describe submitter;
 | Field              | Type        | Null | Key | Default           | Extra                                         |
 +--------------------+-------------+------+-----+-------------------+-----------------------------------------------+
 | id                 | bigint      | NO   | PRI | NULL              | auto_increment                                |
-| birth_year         | int         | YES  |     | NULL              |                                               |
-| device_id          | varchar(20) | YES  |     | NULL              |                                               |
-| gender             | varchar(1)  | YES  |     | NULL              |                                               |
+| device_id          | varchar(20) | YES  | UNI | NULL              |                                               |
 | timestamp_created  | timestamp   | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
 | timestamp_modified | timestamp   | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
 +--------------------+-------------+------+-----+-------------------+-----------------------------------------------+
-   */
-
-//    @OneToMany(targetEntity = Submission.class, fetch = FetchType.LAZY)
-//    @Transient
-//    private Set<Submitter> parent;
+  */
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,10 +43,6 @@ mysql> describe submitter;
 
     @Column(length = 20, unique = true)
     public String device_id;
-    @Column(length = 6)
-    public Integer birth_year;
-    @Column(length = 1)
-    public String gender;
 
     public String getDevice_id() {
         return device_id;
@@ -60,22 +50,6 @@ mysql> describe submitter;
 
     public void setDevice_id(String device_id) {
         this.device_id = device_id;
-    }
-
-    public Integer getBirth_year() {
-        return birth_year;
-    }
-
-    public void setBirth_year(Integer birth_year) {
-        this.birth_year = birth_year;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public static Submitter findByDeviceId(String deviceId){

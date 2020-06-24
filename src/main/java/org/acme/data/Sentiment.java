@@ -17,13 +17,14 @@ mysql> describe sentiment;
 +--------------------+--------------+------+-----+-------------------+-----------------------------------------------+
 | id                 | bigint       | NO   | PRI | NULL              | auto_increment                                |
 | capacity           | int          | YES  |     | NULL              |                                               |
+| departure_time     | datetime(6)  | YES  |     | NULL              |                                               |
 | route_direction    | varchar(255) | YES  |     | NULL              |                                               |
 | route_number       | varchar(255) | YES  |     | NULL              |                                               |
 | route_type         | varchar(255) | YES  |     | NULL              |                                               |
 | stop_name          | varchar(255) | YES  |     | NULL              |                                               |
 | timestamp_created  | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
 | timestamp_modified | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
-| vibe               | varchar(255) | YES  |     | NULL              |                                               |
+| vibe               | int          | YES  |     | NULL              |                                               |
 +--------------------+--------------+------+-----+-------------------+-----------------------------------------------+
      */
 
@@ -49,10 +50,11 @@ mysql> describe sentiment;
     public String route_type;
     public String route_number;
     public String route_direction;
+    public Date departure_time;
 
     // sentiment
     public Integer capacity;
-    public String vibe;
+    public Integer vibe;
 
     public String getStop_name() {
         return stop_name;
@@ -94,11 +96,19 @@ mysql> describe sentiment;
         this.capacity = capacity;
     }
 
-    public String getVibe() {
+    public Date getDeparture_time() {
+        return departure_time;
+    }
+
+    public void setDeparture_time(Date departure_time) {
+        this.departure_time = departure_time;
+    }
+
+    public Integer getVibe() {
         return vibe;
     }
 
-    public void setVibe(String vibe) {
+    public void setVibe(Integer vibe) {
         this.vibe = vibe;
     }
 }

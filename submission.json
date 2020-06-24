@@ -1,26 +1,16 @@
 {
-  "diagnosed_covid19": "0",
-  "fever_status": false,
-  "fever_temp": 65,
-  "location_country_code": "NZ",
   "location_lat": -27.502,
   "location_lng": 152.897,
-  "location_postal_code": "4069",
   "sentiment": {
     "capacity": 50,
     "route_direction": "City",
     "route_number": "216",
     "route_type": "Bus",
     "stop_name": "Sunshine Station - City via Dynon Rd",
-    "vibe": "chilled"
+    "vibe": 67,
+    "departure_time": "2020-06-23T05:27:24.000Z"
   },
   "submitter": {
-    "birth_year": 1900,
-    "device_id": "8316080933289526961",
-    "gender": "F"
-  },
-  "symptom_cough": "0",
-  "symptom_difficult_to_breath": "0",
-  "symptom_muscle_pain": "0",
-  "symptom_sore_throat": "0"
+    "device_id": "8316080933289526961"
+  }
 }
