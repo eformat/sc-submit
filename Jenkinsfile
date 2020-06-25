@@ -100,7 +100,7 @@ pipeline {
                     steps {
                         script {
                             env.VERSION = readMavenPom().getVersion()
-                            env.PACKAGE = "${NAME}-${VERSION}-runner.jar"
+                            env.PACKAGE = "${APP_NAME}-${VERSION}-runner.jar"
                             env.JAVA_HOME = "/usr/lib/jvm/java-11-openjdk"
                         }
 
@@ -115,16 +115,16 @@ pipeline {
                             sh '''                            
                             mvn package -DskipTests -s ocp/settings.xml
                             
-                            oc get bc ${NAME} || rc=$?
+                            oc get bc ${APP_NAME} || rc=$?
                             if [ $rc -eq 1 ]; then
                                 echo " 🏗 no build - creating one 🏗"
                                 oc new-build --binary --name=${APP_NAME} -l app=${APP_NAME} --strategy=docker --dry-run -o yaml > /tmp/bc.yaml
                                 yq w -i /tmp/bc.yaml items[1].spec.strategy.dockerStrategy.dockerfilePath Dockerfile.jvm
                                 oc apply -f /tmp/bc.yaml
-                                oc patch bc/${NAME} -p '{"spec":{ "runPolicy": "Parallel"}}' --type=strategic
+                                oc patch bc/${APP_NAME} -p '{"spec":{ "runPolicy": "Parallel"}}' --type=strategic
                             fi
                             echo " 🏗 build found - starting it  🏗"
-                            oc start-build ${NAME} --from-dir=. --follow                                                        
+                            oc start-build ${APP_NAME} --from-dir=. --follow                                                        
                             '''
                         }
                     }
@@ -162,20 +162,20 @@ pipeline {
             steps {
                 script {
                     sh '''
-                       oc tag ${NAME}:latest ${TARGET_NAMESPACE}/${NAME}:latest
-                       oc -n ${TARGET_NAMESPACE} get dc ${NAME} || rc=$?
+                       oc tag ${APP_NAME}:latest ${TARGET_NAMESPACE}/${APP_NAME}:latest
+                       oc -n ${TARGET_NAMESPACE} get dc ${APP_NAME} || rc=$?
                        if [ $rc -eq 1 ]; then
                             echo " 🏗 no deployment found - creating 🏗"
-                            oc -n ${TARGET_NAMESPACE} new-app ${NAME} --as-deployment-config                            
+                            oc -n ${TARGET_NAMESPACE} new-app ${APP_NAME} --as-deployment-config                            
                             oc -n ${TARGET_NAMESPACE} set env --from=secret/sc-submit dc/sc-submit                            
                        fi
                        echo " 🏗 found pod waiting for deployment 🏗"                       
-                       oc -n ${TARGET_NAMESPACE} wait dc -l app=${NAME} --for=condition=Available --timeout=300s
+                       oc -n ${TARGET_NAMESPACE} wait dc -l app=${APP_NAME} --for=condition=Available --timeout=300s
                         
-                       oc -n ${TARGET_NAMESPACE} get route ${NAME} || rc=$?
+                       oc -n ${TARGET_NAMESPACE} get route ${APP_NAME} || rc=$?
                        if [ $rc -eq 1 ]; then
-                           oc -n ${TARGET_NAMESPACE} expose svc/${NAME}
-                           oc -n ${TARGET_NAMESPACE} patch route/${NAME} --type=json -p '[{"op":"add", "path":"/spec/tls", "value":{"termination":"edge","insecureEdgeTerminationPolicy":"Redirect"}}]'
+                           oc -n ${TARGET_NAMESPACE} expose svc/${APP_NAME}
+                           oc -n ${TARGET_NAMESPACE} patch route/${APP_NAME} --type=json -p '[{"op":"add", "path":"/spec/tls", "value":{"termination":"edge","insecureEdgeTerminationPolicy":"Redirect"}}]'
                        fi
                     '''
                 }
