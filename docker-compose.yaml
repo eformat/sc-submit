@@ -6,9 +6,9 @@ services:
     ports:
       - 3306:3306
     environment:
-      - MYSQL_ROOT_PASSWORD=rootpass
-      - MYSQL_DATABASE=fevermap
-      - MYSQL_USER=fevermap
-      - MYSQL_PASSWORD=feverpass
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=tripvibe
+      - MYSQL_USER=tripvibe
+      - MYSQL_PASSWORD=password
     volumes:
       - "database:/var/lib/mysql:rw"
