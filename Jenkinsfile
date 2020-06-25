@@ -141,7 +141,7 @@ pipeline {
                             oc -n ${TARGET_NAMESPACE} get dc mysql || rc=$?
                             if [ $rc -eq 1 ]; then
                                 echo " 🏗 no database - creating 🏗"
-                                oc -n ${TARGET_NAMESPACE} new-app --template=mysql-persistent -p MYSQL_VERSION=latest -p DATABASE_SERVICE_NAME=tripvibe -p MYSQL_USER=tripvibe -p MYSQL_PASSWORD=password -p MYSQL_DATABASE=tripvibe -p MYSQL_ROOT_PASSWORD=password -p VOLUME_CAPACITY=5Gi --name=mysql
+                                oc -n ${TARGET_NAMESPACE} new-app --template=mysql-persistent -p MYSQL_VERSION=latest -p DATABASE_SERVICE_NAME=mysql -p MYSQL_USER=tripvibe -p MYSQL_PASSWORD=password -p MYSQL_DATABASE=tripvibe -p MYSQL_ROOT_PASSWORD=password -p VOLUME_CAPACITY=5Gi --name=mysql
                                 sleep 10
                                 oc -n ${TARGET_NAMESPACE} wait pod -l deploymentconfig=mysql --for=condition=Ready --timeout=300s
                             fi
