@@ -100,7 +100,7 @@ pipeline {
                     steps {
                         script {
                             env.VERSION = readMavenPom().getVersion()
-                            env.PACKAGE = "${APP_NAME}-${VERSION}-runner.jar"
+                            env.PACKAGE = "${NAME}-${VERSION}-runner.jar"
                             env.JAVA_HOME = "/usr/lib/jvm/java-11-openjdk"
                         }
 
