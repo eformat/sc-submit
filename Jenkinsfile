@@ -168,8 +168,9 @@ pipeline {
                             echo " 🏗 no deployment found - creating 🏗"
                             oc -n ${TARGET_NAMESPACE} new-app ${APP_NAME} --as-deployment-config                            
                             oc -n ${TARGET_NAMESPACE} set env --from=secret/sc-submit dc/sc-submit
-                            oc set probe dc/${APP_NAME} --liveness --get-url=http://:8080/health --initial-delay-seconds=10 --timeout-seconds=1
-                            oc set probe dc/${APP_NAME} --readiness --get-url=http://:8080/health --initial-delay-seconds=20 --timeout-seconds=1
+                            oc -n ${TARGET_NAMESPACE} set probe dc/${APP_NAME} --liveness --get-url=http://:8080/health --initial-delay-seconds=10 --timeout-seconds=1
+                            oc -n ${TARGET_NAMESPACE} set probe dc/${APP_NAME} --readiness --get-url=http://:8080/health --initial-delay-seconds=20 --timeout-seconds=1
+                            oc -n ${TARGET_NAMESPACE} scale dc/${APP_NAME} --replicas=2
                        fi
                        echo " 🏗 found pod waiting for deployment 🏗"                       
                        oc -n ${TARGET_NAMESPACE} wait dc -l app=${APP_NAME} --for=condition=Available --timeout=300s
